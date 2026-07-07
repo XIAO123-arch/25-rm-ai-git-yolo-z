@@ -66,18 +66,21 @@ def draw_detections(image, result):
 
 
 def run_image(source, model_path, output, conf, show=False):
+    # 1.读取图片输入
     image = cv2.imread(str(source))
     if image is None:
         raise FileNotFoundError(f"Cannot read image: {source}")
-
+    # 2.YOLO模型推理
     model = YOLO(str(model_path))
     results = model.predict(image, conf=conf, verbose=False)
 
     annotated = image.copy()
     if results:
+        # 3.检测画框
         draw_detections(annotated, results[0])
 
     output.parent.mkdir(parents=True, exist_ok=True)
+    # 4.图片结果保存
     if not cv2.imwrite(str(output), annotated):
         raise RuntimeError(f"Failed to write result: {output}")
 
