@@ -264,10 +264,10 @@ outputs/example_result.jpg
 
 ### Day 2：理解代码和记录 Prompt
 
-- [ ] 用 AI 辅助解释 `detect.py`。
-- [ ] 标出 YOLO 推理、读取输入、画框、保存结果的位置。
-- [ ] 创建 `docs/prompts.md`。
-- [ ] 创建 `docs/reflection.md` 初稿。
+- [T] 用 AI 辅助解释 `detect.py`。
+- [T] 标出 YOLO 推理、读取输入、画框、保存结果的位置。
+- [T] 创建 `docs/prompts.md`。
+- [T] 创建 `docs/reflection.md` 初稿。
 
 ### Day 3：实现多目标过滤
 
