@@ -256,11 +256,11 @@ outputs/example_result.jpg
 
 ### Day 1：跑通 Starter
 
-- [ ] Fork 仓库。
-- [ ] Clone 到本地。
-- [ ] 安装依赖。
-- [ ] 跑通原始图片检测。
-- [ ] 完成第一条 commit。
+- [T] Fork 仓库。
+- [T] Clone 到本地。
+- [T] 安装依赖。
+- [T] 跑通原始图片检测。
+- [T] 完成第一条 commit。
 
 ### Day 2：理解代码和记录 Prompt
 
