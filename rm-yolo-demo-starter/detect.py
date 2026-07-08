@@ -17,6 +17,7 @@ def parse_args():
     parser.add_argument("--output", default="outputs/result.jpg", help="Path to save the annotated image.")
     parser.add_argument("--conf", type=float, default=0.25, help="YOLO confidence threshold.")
     parser.add_argument("--show", action="store_true", help="Show result in an OpenCV window.")
+    parser.add_argument('--max-det',type=int,default=10,help='Maximum number of objects to keep after sorting by confidence')
     return parser.parse_args()
 
 
@@ -65,14 +66,25 @@ def draw_detections(image, result):
         )
 
 
-def run_image(source, model_path, output, conf, show=False):
+def run_image(source, model_path, output, conf, max_det, show=False):
     # 1.读取图片输入
     image = cv2.imread(str(source))
     if image is None:
         raise FileNotFoundError(f"Cannot read image: {source}")
-    # 2.YOLO模型推理
+        # 2.YOLO模型推理
     model = YOLO(str(model_path))
     results = model.predict(image, conf=conf, verbose=False)
+        # 取出检测框，按置信度从高到低排序
+    if results and len(results[0].boxes)>0:
+       boxes = results[0].boxes
+       # 按置信度降序排序
+       sorted_idx = boxes.conf.argsort(descending=True)
+       sorted_boxes = boxes[sorted_idx]
+    # 只保留前max‑det个目标
+    if len(sorted_boxes) > max_det:
+        sorted_boxes = sorted_boxes[:max_det]
+        # 覆盖原结果，之后画框只会用筛选后的框
+        results[0].boxes = sorted_boxes
 
     annotated = image.copy()
     if results:
@@ -88,6 +100,17 @@ def run_image(source, model_path, output, conf, show=False):
         cv2.imshow("RM YOLO Demo Starter", annotated)
         cv2.waitKey(0)
         cv2.destroyAllWindows()
+        # 输出统计信息
+    final_boxes = results[0].boxes
+    total = len(final_boxes)
+    print(f"【检测统计】一共保留目标数量: {total}")
+    class_count = {}
+    for box in final_boxes:
+        cid = int(box.cls[0])
+        cname = get_class_name(results[0].names, cid)
+        class_count[cname] = class_count.get(cname,0)+1
+    for name,num in class_count.items():
+        print(f"类别 {name}：{num} 个")
 
     print(f"Saved result to {output}")
 
@@ -105,7 +128,7 @@ def main():
 
     suffix = source.suffix.lower()
     if suffix in IMAGE_EXTENSIONS:
-        run_image(source, model_path, output, args.conf, args.show)
+        run_image(source, model_path, output, args.conf, args.max_det, args.show)
         return
 
     if suffix in VIDEO_EXTENSIONS:
