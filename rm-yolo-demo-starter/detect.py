@@ -64,14 +64,18 @@ def draw_detections(image, result):
             2,
             lineType=cv2.LINE_AA,
         )
+import torch
+
 def filter_boxes(results, max_det):
-    if results and len(results[0].boxes) > 0:
-        boxes = results[0].boxes
-        sorted_index = boxes.conf.argsort(descending=True)
-        sorted_boxes = boxes[sorted_index]
-        if len(sorted_boxes) > max_det:
-            sorted_boxes = sorted_boxes[:max_det]
-        results[0].boxes = sorted_boxes
+    boxes = results[0].boxes
+    if len(boxes) == 0:
+        return results
+    confs = boxes.conf
+    sort_idx = torch.sort(confs, descending=True).indices
+    sorted_boxes = boxes[sort_idx]
+    if len(sorted_boxes) > max_det:
+        sorted_boxes = sorted_boxes[:max_det]
+    results[0].boxes = sorted_boxes
     return results
 def print_statistics(results):
     final_boxes = results[0].boxes
@@ -133,7 +137,7 @@ def run_image(source, model_path, out_dir, conf, max_det, show=False):
     # 改动2：调用已定义的filter_boxes函数，复用过滤逻辑
     if results:
         results = filter_boxes(results, max_det)
-
+        print_statistics(results)
         annotated = image.copy()
         if results:
             # 3.检测画框
@@ -151,17 +155,6 @@ def run_image(source, model_path, out_dir, conf, max_det, show=False):
         cv2.imshow("RM YOLO Demo Starter", annotated)
         cv2.waitKey(0)
         cv2.destroyAllWindows()
-        # 输出统计信息
-    final_boxes = results[0].boxes
-    total = len(final_boxes)
-    print(f"【检测统计】一共保留目标数量: {total}")
-    class_count = {}
-    for box in final_boxes:
-        cid = int(box.cls[0])
-        cname = get_class_name(results[0].names, cid)
-        class_count[cname] = class_count.get(cname,0)+1
-    for name,num in class_count.items():
-        print(f"类别 {name}：{num} 个")
         #改动3：调用统计函数输出信息
         print_statistics(results)
     print(f"Saved result to {output}")
