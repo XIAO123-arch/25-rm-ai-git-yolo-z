@@ -1,0 +1,19 @@
+目标检测项目说明书
+ 一、项目概述
+本项目基于YOLO‑v8深度学习模型，完成无人机目标检测开发。开发分为四个阶段：基础图片检测开发、多目标筛选过滤、批量图片处理、视频文件检测；支持通过命令行参数 `--conf` 设置置信度阈值，`--max‑det` 控制画面保留目标最大数量；实现单张图片检测、文件夹批量图片检测、视频读取，推理，保存功能。
+
+二、程序功能清单
+1. 基础图片检测
+   读取图片文件，调用YOLO‑v8模型完成目标推理，绘制目标检测框与置信度标签，将画框图片保存至指定文件夹。
+   多目标筛选过滤
+   通过 `--conf` 参数设置置信度门槛，过滤低于可信度阈值的检测目标；
+   通过 `--max‑det` 参数设置一张画面最多保留目标数量；
+   将检测框按照置信度数值从高到低排序，优先保留可信度更高的目标；
+   控制台输出统计信息：总检测目标数量、各个物体类别数量。
+（python detect.py --source assets/example-images/01.jpg --model models/best.pt --output outputs --conf 0.4 --max-det 6 --show）
+2. 批量图片处理
+   读取文件夹路径，自动遍历文件夹内全部图片文件，批量完成检测，输出文件自动沿用原图名称保存，不会产生文件覆盖。
+（python detect.py --source assets/example-images --model models/best.pt --output outputs --conf 0.4 --max-det 6）
+3. 视频文件处理
+   读取视频文件，逐帧进行目标检测，筛选目标后绘制方框，最后合成新视频并保存到输出文件夹；`--conf`、`--max‑det` 参数对视频帧同样生效。
+（python detect.py --source assets/example-videos/01.mp4 --model models/best.pt --output outputs --conf 0.4 --max-det 8）

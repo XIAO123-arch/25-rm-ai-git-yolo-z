@@ -77,23 +77,23 @@ python detect.py --source assets/example-images/01.jpg --output outputs/result.j
 
 最低功能要求：
 
-- [ ] 能处理单张图片输入。
-- [ ] 支持 `--source` 参数指定输入路径。
-- [ ] 支持 `--conf` 参数过滤低置信度目标。
-- [ ] 在图像上画出目标框。
-- [ ] 在目标框旁显示类别名和置信度，例如 `drone 0.87`。
-- [ ] 将处理结果保存到 `outputs/`。
-- [ ] README 写清楚安装、运行、参数说明和效果展示。
-- [ ] `docs/prompts.md` 记录 AI 提问、AI 回答摘要、采纳内容和人工修改。
-- [ ] `docs/reflection.md` 写个人反思。
+- [T] 能处理单张图片输入。
+- [T] 支持 `--source` 参数指定输入路径。
+- [T] 支持 `--conf` 参数过滤低置信度目标。
+- [T] 在图像上画出目标框。
+- [T] 在目标框旁显示类别名和置信度，例如 `drone 0.87`。
+- [T] 将处理结果保存到 `outputs/`。
+- [T] README 写清楚安装、运行、参数说明和效果展示。
+- [T] `docs/prompts.md` 记录 AI 提问、AI 回答摘要、采纳内容和人工修改。
+- [T] `docs/reflection.md` 写个人反思。
 
 二次开发要求：
 
-- [ ] 支持 `--max-det` 参数，保留置信度最高的前 N 个目标。
-- [ ] 支持视频输入和输出：`assets/example-videos/01.mp4` -> `outputs/result.mp4`。
-- [ ] 支持批量处理 `assets/example-images/` 目录中的图片。
-- [ ] 输出处理统计信息，例如检测到多少个目标、保存到哪里。
-- [ ] 整理 1 分钟演示视频。
+- [T] 支持 `--max-det` 参数，保留置信度最高的前 N 个目标。
+- [T] 支持视频输入和输出：`assets/example-videos/01.mp4` -> `outputs/result.mp4`。
+- [T] 支持批量处理 `assets/example-images/` 目录中的图片。
+- [T] 输出处理统计信息，例如检测到多少个目标、保存到哪里。
+- [T] 整理 1 分钟演示视频。
 
 可选拓展：
 
@@ -284,9 +284,9 @@ outputs/example_result.jpg
 
 ### Day 5：整理提交材料
 
-- [ ] 完善 README。
-- [ ] 补充 Prompt 记录。
-- [ ] 完成个人反思。
-- [ ] 录制 1 分钟演示视频。
-- [ ] Push 到 GitHub。
-- [ ] 提交仓库链接和视频链接。
+- [T] 完善 README。
+- [T] 补充 Prompt 记录。
+- [T] 完成个人反思。
+- [T] 录制 1 分钟演示视频。
+- [T] Push 到 GitHub。
+- [T] 提交仓库链接和视频链接。
